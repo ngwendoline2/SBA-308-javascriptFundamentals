@@ -1,176 +1,168 @@
-
+// The provided course information.
 const CourseInfo = {
-    id: 451,
-    name: "Introduction to JavaScript"
-  };
-  
-  // The provided assignment group.
-  const AssignmentGroup = {
-    id: 12345,
-    name: "Fundamentals of JavaScript",
-    course_id: 451,
-    group_weight: 25,
-    assignments: [
-      {
-        id: 1,
-        name: "Homework",
-        due_at: "2023-01-25",
-        points_possible: 50
-      },
-      {
-        id: 2,
-        name: "English",
-        due_at: "2023-02-27",
-        points_possible: 150
-      },
-      {
-        id: 3,
-        name: "Code the World",
-        due_at: "3156-11-15",
-        points_possible: 500
-      }
-    ]
-  };
-  
-  // The provided learner submission data.
-  const LearnerSubmissions = [
+  id: 451,
+  name: "Introduction to JavaScript"
+};
+
+console.log (CourseInfo)
+// The provided assignment group.
+const AssignmentGroup = {
+  id: 12345,
+  name: "Fundamentals of JavaScript",
+  course_id: 451,
+  group_weight: 25,
+  assignments: [
     {
-      learner_id: 125,
-      assignment_id: 1,
-      submission: {
-        submitted_at: "2023-01-25",
-        score: 47
-      }
+      id: 1,
+      name: "Declare a Variable",
+      due_at: "2023-01-25",
+      points_possible: 50,
     },
     {
-      learner_id: 125,
-      assignment_id: 2,
-      submission: {
-        submitted_at: "2023-02-12",
-        score: 150
-      }
+      id: 2,
+      name: "Write a Function",
+      due_at: "2023-02-27",
+      points_possible: 150,
     },
     {
-      learner_id: 125,
-      assignment_id: 3,
-      submission: {
-        submitted_at: "2023-01-25",
-        score: 400
-      }
+      id: 3,
+      name: "Code the World",
+      due_at: "3156-11-15",
+      points_possible: 500,
     },
-    {
-      learner_id: 132,
-      assignment_id: 1,
-      submission: {
-        submitted_at: "2023-01-24",
-        score: 39
-      }
-    },
-    {
-      learner_id: 132,
-      assignment_id: 2,
-      submission: {
-        submitted_at: "2023-03-07",
-        score: 140
-      }
-    }
+  ],
+};
 
-
-  function getLearnerData(courseInfo, assignmentGroup, LearnerSubmissions) 
-//Validate assignmentGroup belong to the correct course
-    if (assignmentGroup.course_id !== courseInfo.id) {
-        throw new Error("AssignmentGroup does not belong to the specified course.");
-    }
-
-    // Validate points_possible is not 0
-    if (assignmentGroup.group_weight === 0) {
-        throw new Error("Invalid data: group_weight \cannot be 0.");
-    }
-
-    // We will filter the assignments that are not yet due
-    const now = new Date();
-    const validateAssignments = assignmentGroup.assignments.filter((assignment) => {
-        return assignment.due_at && new Date(assignment.due_at)  now;
-    });
-
-// we calculate weighted average for each learner
-const learnerData = [];
-LearnerSubmissions.forEach((submission) => {
-    const assignment = validateAssignments.find((a) => a.id === submission.assignment_id);
-    
-    if (assignment) {
-        // check for late submission
-        const latePenalty = su.submission.submitted_at > a.due_at ? 0.1 : 0;
-
-        //Calculate adjusted score
-        const adjustedScore = submission.submission.score * (1 - latePenalty);
-
-        // We calculate percentage score
-        const percentageScore = (adjustedScore / assignment.points_possible) * 100;
-
-        // We add entery to learnerData
-        learnerData.push({
-            learner_id: submission.learner_id,
-            assignment_id: submission.assignment_id,
-            submission: {
-                submission_at: submission.submission.submission_at,
-                score: adjustedScore,
-            },
-            percentage_score: percentageScore,
-        });
-    }
-});  
-  
-return learnerData;
-{
-    // Example usage:
-    const CourseInfo = {
-        id: 451,
-    name: "Math 101"
-    };
-
-    const assignmentGroup = {
-        id: 12345,
-        name: "Homework",
-        course_id: 451,
-        group_weight: 25,
-        assignments: [
-    {
-        id: 1,
-        name: "Assignment 1",
-        due_at: "2023-01-25",
-        points_possible: 50,
-    },
-    // Second assignmentGroup
-    {
-        id: 2,
-        name: "English",
-        due_at: "2023-02-27",
-        points_possible: 150
-      },
-      // Thirth assignmentGroup
-      {
-        id: 3,
-        name: "code the world",
-        due_at:"3156-11-15",
-        points_possible: 500,
-      },
-  };
-
-  const learnerSubmissions = [
+const LearnerSubmissions = [
+  {
     learner_id: 125,
-    assignment_id: 1, 2, 3,
+    assignment_id: 1,
     submission: {
-        submission_at: "2024-03-09T18:30:00",
-        score: 90,
+      submitted_at: "2023-01-25",
+      score: 47,
     },
-},
+  },
+  {
+    learner_id: 125,
+    assignment_id: 2,
+    submission: {
+      submitted_at: "2023-02-12",
+      score: 150,
+    },
+  },
+  {
+    learner_id: 125,
+    assignment_id: 3,
+    submission: {
+      submitted_at: "2023-01-25",
+      score: 400,
+    },
+  },
+  {
+    learner_id: 132,
+    assignment_id: 1,
+    submission: {
+      submitted_at: "2023-01-24",
+      score: 39,
+    },
+  },
+  {
+    learner_id: 132,
+    assignment_id: 2,
+    submission: {
+      submitted_at: "2023-03-07",
+      score: 140,
+    },
+  },
+];
 
-  ];
+let getLearnerData = (course, ag, submission) => {
+  const result = [];
 
   try {
-    const result = getLearnerData(courseInfo, assignmentGroup, learnerSubmissions);
-    console.log(result);
-  } catch (errow) {
-    console.errow(errow.message);
+    const courseID = course.id;
+    if (courseID !== ag.course_id) {
+      throw new Error(
+        `Invalid course ID. Expected ${courseID}, but your assignment group is in ${ag.course_id}.`
+      );
+    }
+
+    const learnerMap = new Map();
+    for (let i = 0; i < submission.length; i++) {
+      let learnerID = submission[i].learner_id;
+      let assignmentID = submission[i].assignment_id;
+      let submissionVar = submission[i].submission;
+      let submittedDate = submission[i].submission.submitted_at;
+      let learnerScore = submission[i].submission.score;
+      if (!learnerMap.has(learnerID)) {
+        // If doesn't exist in Map
+        learnerMap.set(learnerID, [[assignmentID, submissionVar]]);
+      } else {
+        // If does exist in Map
+        learnerMap.get(learnerID).push([assignmentID, submissionVar]);
+      }
+    }
+
+    learnerMap.forEach((value, key) => {
+      let student = {};
+      student["id"] = key;
+      student["avg"] = 0;
+      let total_score = 0;
+      let total_possible_score = 0;
+
+      for (let j = 0; j < value.length; j++) {
+        // console.log(value[j]);
+        const submittedAtDate = new Date(value[j][1].submitted_at);
+
+        const dueAtDate = new Date(ag.assignments[value[j][0] - 1].due_at);
+
+        const currentDate = new Date();
+
+        try {
+          if (dueAtDate < currentDate) {
+            let learnerAssignId = value[j][0];
+            let assignmentId = ag.assignments[value[j][0] - 1].id;
+            let pointsPossible =
+              ag.assignments[value[j][0] - 1].points_possible;
+            let submissionScore = value[j][1].score;
+
+            student[`${value[j][0]}`] = submissionScore / pointsPossible;
+
+            if (learnerAssignId === assignmentId) {
+              if (submittedAtDate > dueAtDate) {
+                // Returns a decimal to the nearest hundredth, uses parseFloat() to convert back to a number
+                // Can use Number() or +() instead of parseFloat() in this scenerio
+                student[`${value[j][0]}`] = parseFloat(
+                  ((submissionScore / pointsPossible) * 0.9).toFixed(2)
+                );
+                total_score += submissionScore * 0.9;
+                total_possible_score += pointsPossible;
+              } else {
+                total_score += submissionScore;
+                total_possible_score += pointsPossible;
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error processing data:", error.message);
+          break;
+        }
+      }
+
+      student["avg"] = total_score / total_possible_score;
+      result.push(student);
+    });
+  } catch (error) {
+    console.log(`Error: ${error.message}`);
   }
+  return result;
+};
+
+const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+try {
+  if (result.length !== 0) {
+    console.log(result);
+  }
+} catch (error) {
+  console.log(`Error: ${error.message}`);
+}
